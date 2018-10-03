@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itcast.bos.dao.StandardMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.itcast.bos.pojo.Standard">
+		<id column="C_ID" property="id" jdbcType="INTEGER" />
+		<result column="C_MAX_LENGTH" property="maxLength"
+			jdbcType="INTEGER" />
+		<result column="C_MAX_WEIGHT" property="maxWeight"
+			jdbcType="INTEGER" />
+		<result column="C_MIN_LENGTH" property="minLength"
+			jdbcType="INTEGER" />
+		<result column="C_MIN_WEIGHT" property="minWeight"
+			jdbcType="INTEGER" />
+		<result column="C_NAME" property="name" jdbcType="VARCHAR" />
+		<result column="C_OPERATING_COMPANY"
+			property="operatingCompany" jdbcType="VARCHAR" />
+		<result column="C_OPERATING_TIME" property="operatingTime"
+			jdbcType="TIMESTAMP" />
+		<result column="C_OPERATOR" property="operator"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		C_ID, C_MAX_LENGTH, C_MAX_WEIGHT, C_MIN_LENGTH,
+		C_MIN_WEIGHT, C_NAME,
+		C_OPERATING_COMPANY,
+		C_OPERATING_TIME, C_OPERATOR
+	</sql>
+
+	<!-- 查询总记录条数 -->
+	<select id="findTotal" resultType="java.lang.Integer">
+		select count(*) from
+		t_standard
+	</select>
+
+	<!-- 查询分页数据 -->
+	<select id="findPageData" resultMap="BaseResultMap"
+		parameterType="cn.itcast.bos.pojo.Standard">
+		select
+		<include refid="Base_Column_List" />
+		from t_standard
+		<if test="begin != null and end != null">
+			limit #{begin} , #{end}
+		</if>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_standard
+		where C_ID = #{id,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKeys" >
+		delete from t_standard where C_ID in
+		<foreach collection="array" open="(" item="id" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from t_standard
+		where C_ID =
+		#{id,jdbcType=INTEGER}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="cn.itcast.bos.pojo.Standard">
+		<selectKey keyProperty="id" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_standard (C_ID, C_MAX_LENGTH, C_MAX_WEIGHT,
+		C_MIN_LENGTH, C_MIN_WEIGHT, C_NAME,
+		C_OPERATING_COMPANY,
+		C_OPERATING_TIME, C_OPERATOR
+		)
+		values (#{id,jdbcType=INTEGER},
+		#{maxLength,jdbcType=INTEGER},
+		#{maxWeight,jdbcType=INTEGER},
+		#{minLength,jdbcType=INTEGER}, #{minWeight,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{operatingCompany,jdbcType=VARCHAR},
+		#{operatingTime,jdbcType=TIMESTAMP}, #{operator,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.itcast.bos.pojo.Standard">
+		insert into t_standard
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				C_ID,
+			</if>
+			<if test="maxLength != null">
+				C_MAX_LENGTH,
+			</if>
+			<if test="maxWeight != null">
+				C_MAX_WEIGHT,
+			</if>
+			<if test="minLength != null">
+				C_MIN_LENGTH,
+			</if>
+			<if test="minWeight != null">
+				C_MIN_WEIGHT,
+			</if>
+			<if test="name != null">
+				C_NAME,
+			</if>
+			<if test="operatingCompany != null">
+				C_OPERATING_COMPANY,
+			</if>
+			<if test="operatingTime != null">
+				C_OPERATING_TIME,
+			</if>
+			<if test="operator != null">
+				C_OPERATOR,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="maxLength != null">
+				#{maxLength,jdbcType=INTEGER},
+			</if>
+			<if test="maxWeight != null">
+				#{maxWeight,jdbcType=INTEGER},
+			</if>
+			<if test="minLength != null">
+				#{minLength,jdbcType=INTEGER},
+			</if>
+			<if test="minWeight != null">
+				#{minWeight,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="operatingCompany != null">
+				#{operatingCompany,jdbcType=VARCHAR},
+			</if>
+			<if test="operatingTime != null">
+				#{operatingTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.itcast.bos.pojo.Standard">
+		update t_standard
+		<set>
+			<if test="maxLength != null">
+				C_MAX_LENGTH = #{maxLength,jdbcType=INTEGER},
+			</if>
+			<if test="maxWeight != null">
+				C_MAX_WEIGHT = #{maxWeight,jdbcType=INTEGER},
+			</if>
+			<if test="minLength != null">
+				C_MIN_LENGTH = #{minLength,jdbcType=INTEGER},
+			</if>
+			<if test="minWeight != null">
+				C_MIN_WEIGHT = #{minWeight,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				C_NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="operatingCompany != null">
+				C_OPERATING_COMPANY =
+				#{operatingCompany,jdbcType=VARCHAR},
+			</if>
+			<if test="operatingTime != null">
+				C_OPERATING_TIME = #{operatingTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operator != null">
+				C_OPERATOR = #{operator,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where C_ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.itcast.bos.pojo.Standard">
+		update t_standard
+		set C_MAX_LENGTH =
+		#{maxLength,jdbcType=INTEGER},
+		C_MAX_WEIGHT =
+		#{maxWeight,jdbcType=INTEGER},
+		C_MIN_LENGTH =
+		#{minLength,jdbcType=INTEGER},
+		C_MIN_WEIGHT =
+		#{minWeight,jdbcType=INTEGER},
+		C_NAME = #{name,jdbcType=VARCHAR},
+		C_OPERATING_COMPANY = #{operatingCompany,jdbcType=VARCHAR},
+		C_OPERATING_TIME = #{operatingTime,jdbcType=TIMESTAMP},
+		C_OPERATOR =
+		#{operator,jdbcType=VARCHAR}
+		where C_ID = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>
