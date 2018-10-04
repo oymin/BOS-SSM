@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itcast.bos.dao.CourierTaketimeMapper" >
+  <resultMap id="BaseResultMap" type="cn.itcast.bos.pojo.CourierTaketimeKey" >
+    <id column="C_COURIER_ID" property="courierId" jdbcType="INTEGER" />
+    <id column="C_TAKETIME_ID" property="takeTimeId" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="cn.itcast.bos.pojo.CourierTaketimeKey" >
+    delete from t_courier_taketime
+    where C_TAKETIME_ID = #{takeTimeId,jdbcType=INTEGER}
+      and C_COURIER_ID = #{courierId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.itcast.bos.pojo.CourierTaketimeKey" >
+    insert into t_courier_taketime (C_COURIER_ID,C_TAKETIME_ID)
+    values ( #{courierId,jdbcType=INTEGER},#{takeTimeId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.itcast.bos.pojo.CourierTaketimeKey" >
+    insert into t_courier_taketime
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="courierId != null" >
+        C_COURIER_ID,
+      </if>
+       <if test="fixedAreaId != null" >
+        C_TAKETIME_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="courierId != null" >
+        #{courierId,jdbcType=INTEGER},
+      </if>
+      <if test="takeTimeId != null" >
+        #{takeTimeId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

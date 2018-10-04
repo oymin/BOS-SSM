@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itcast.bos.dao.WorkBillMapper">
+  <resultMap id="BaseResultMap" type="cn.itcast.bos.pojo.take_delivery.WorkBill">
+    <id column="C_ID" jdbcType="INTEGER" property="id" />
+    <result column="C_TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="C_PICKSTATE" jdbcType="VARCHAR" property="pickstate" />
+    <result column="C_BUILDTIME" jdbcType="VARCHAR" property="buildtime" />
+    <result column="C_ATTACHBILLTIMES" jdbcType="VARCHAR" property="attachbilltimes" />
+    <result column="C_REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="C_SMSNUMBER" jdbcType="VARCHAR" property="smsnumber" />
+    <result column="C_COURIER_ID" jdbcType="INTEGER" property="courierId" />
+    <result column="C_ORDER_ID" jdbcType="INTEGER" property="orderId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    C_ID, C_TYPE, C_PICKSTATE, C_BUILDTIME, C_ATTACHBILLTIMES, C_REMARK, C_SMSNUMBER, 
+    C_COURIER_ID, C_ORDER_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_work_bill
+    where C_ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_work_bill
+    where C_ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.itcast.bos.pojo.take_delivery.WorkBill">
+    insert into t_work_bill (C_ID, C_TYPE, C_PICKSTATE, 
+      C_BUILDTIME, C_ATTACHBILLTIMES, C_REMARK, 
+      C_SMSNUMBER, C_COURIER_ID, C_ORDER_ID
+      )
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{pickstate,jdbcType=VARCHAR}, 
+      #{buildtime,jdbcType=VARCHAR}, #{attachbilltimes,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{smsnumber,jdbcType=VARCHAR}, #{courierId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.itcast.bos.pojo.take_delivery.WorkBill">
+    insert into t_work_bill
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        C_ID,
+      </if>
+      <if test="type != null">
+        C_TYPE,
+      </if>
+      <if test="pickstate != null">
+        C_PICKSTATE,
+      </if>
+      <if test="buildtime != null">
+        C_BUILDTIME,
+      </if>
+      <if test="attachbilltimes != null">
+        C_ATTACHBILLTIMES,
+      </if>
+      <if test="remark != null">
+        C_REMARK,
+      </if>
+      <if test="smsnumber != null">
+        C_SMSNUMBER,
+      </if>
+      <if test="courierId != null">
+        C_COURIER_ID,
+      </if>
+      <if test="orderId != null">
+        C_ORDER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="pickstate != null">
+        #{pickstate,jdbcType=VARCHAR},
+      </if>
+      <if test="buildtime != null">
+        #{buildtime,jdbcType=VARCHAR},
+      </if>
+      <if test="attachbilltimes != null">
+        #{attachbilltimes,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="smsnumber != null">
+        #{smsnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="courierId != null">
+        #{courierId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.itcast.bos.pojo.take_delivery.WorkBill">
+    update t_work_bill
+    <set>
+      <if test="type != null">
+        C_TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="pickstate != null">
+        C_PICKSTATE = #{pickstate,jdbcType=VARCHAR},
+      </if>
+      <if test="buildtime != null">
+        C_BUILDTIME = #{buildtime,jdbcType=VARCHAR},
+      </if>
+      <if test="attachbilltimes != null">
+        C_ATTACHBILLTIMES = #{attachbilltimes,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        C_REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="smsnumber != null">
+        C_SMSNUMBER = #{smsnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="courierId != null">
+        C_COURIER_ID = #{courierId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        C_ORDER_ID = #{orderId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where C_ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.itcast.bos.pojo.take_delivery.WorkBill">
+    update t_work_bill
+    set C_TYPE = #{type,jdbcType=VARCHAR},
+      C_PICKSTATE = #{pickstate,jdbcType=VARCHAR},
+      C_BUILDTIME = #{buildtime,jdbcType=VARCHAR},
+      C_ATTACHBILLTIMES = #{attachbilltimes,jdbcType=VARCHAR},
+      C_REMARK = #{remark,jdbcType=VARCHAR},
+      C_SMSNUMBER = #{smsnumber,jdbcType=VARCHAR},
+      C_COURIER_ID = #{courierId,jdbcType=INTEGER},
+      C_ORDER_ID = #{orderId,jdbcType=INTEGER}
+    where C_ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd 
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+		
+		<!-- job -->
+		<bean id="promotionJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+			<property name="jobClass" value="cn.itcast.bos.quartz.PromotionJob" />
+		</bean>
+		
+		<!-- trigger -->
+		<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+			<property name="jobDetail" ref="promotionJob"></property>
+			<!-- 多少毫秒后执行,第一次执行 -->
+			<property name="startDelay" value="0"></property>
+			<!-- 秒后重复执行 （毫秒单位）-->
+			<property name="repeatInterval" value="60000"></property>
+		</bean>
+		
+		<!-- scheduler -->
+		<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+			<property name="jobFactory" ref="jobFactory" />
+			<property name="triggers">
+				<list>
+					<ref bean="simpleTrigger"/>
+				</list>
+			</property>
+		</bean>
+		
+		
+		
+</beans>

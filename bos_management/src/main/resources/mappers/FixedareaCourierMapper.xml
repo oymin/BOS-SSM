@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itcast.bos.dao.FixedareaCourierMapper" >
+  <resultMap id="BaseResultMap" type="cn.itcast.bos.pojo.FixedareaCourierKey" >
+    <id column="C_FIXED_AREA_ID" property="fixedAreaId" jdbcType="VARCHAR" />
+    <id column="C_COURIER_ID" property="courierId" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="cn.itcast.bos.pojo.FixedareaCourierKey" >
+    delete from t_fixedarea_courier
+    where C_FIXED_AREA_ID = #{fixedAreaId,jdbcType=VARCHAR}
+      and C_COURIER_ID = #{courierId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.itcast.bos.pojo.FixedareaCourierKey" >
+    insert into t_fixedarea_courier (C_FIXED_AREA_ID, C_COURIER_ID)
+    values (#{fixedAreaId,jdbcType=VARCHAR}, #{courierId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.itcast.bos.pojo.FixedareaCourierKey" >
+    insert into t_fixedarea_courier
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fixedAreaId != null" >
+        C_FIXED_AREA_ID,
+      </if>
+      <if test="courierId != null" >
+        C_COURIER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fixedAreaId != null" >
+        #{fixedAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="courierId != null" >
+        #{courierId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

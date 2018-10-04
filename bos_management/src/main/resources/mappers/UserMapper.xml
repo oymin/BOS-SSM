@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itcast.bos.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="cn.itcast.bos.pojo.system.User">
+		<id column="C_ID" jdbcType="INTEGER" property="id" />
+		<result column="C_BIRTHDAY" jdbcType="VARCHAR" property="birthday" />
+		<result column="C_GENDER" jdbcType="VARCHAR" property="gender" />
+		<result column="C_PASSWORD" jdbcType="VARCHAR" property="password" />
+		<result column="C_REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="C_STATION" jdbcType="VARCHAR" property="station" />
+		<result column="C_TELEPHONE" jdbcType="VARCHAR" property="telephone" />
+		<result column="C_USERNAME" jdbcType="VARCHAR" property="username" />
+		<result column="C_REAL_NAME" jdbcType="VARCHAR" property="realName" />
+		<result column="C_EMAIL" jdbcType="VARCHAR" property="email" />
+		<result column="C_ADD_TIME" jdbcType="VARCHAR" property="addTime" />
+		<result column="C_UPDATE_TIME" jdbcType="VARCHAR" property="updateTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		C_ID, C_BIRTHDAY, C_GENDER, C_PASSWORD, C_REMARK, C_STATION, C_TELEPHONE,
+		C_USERNAME,
+		C_REAL_NAME, C_EMAIL, C_ADD_TIME, C_UPDATE_TIME
+	</sql>
+	
+	<!-- 查询总记录条数 -->
+	<select id="findTotal" resultType="java.lang.Integer" parameterType="cn.itcast.bos.pojo.system.User">
+		select count(*) from t_user
+		<where>
+			<if test="username != null and username !='' ">
+				and C_USERNAME LIKE CONCAT('%',#{username,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="gender != null and gender !='' ">
+				and C_GENDER = #{gender}
+			</if>
+			<if test="birthday != null and birthday !='' ">
+				and C_BIRTHDAY LIKE CONCAT('%',#{birthday,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="realName != null and realName !='' ">
+				and C_REAL_NAME LIKE CONCAT('%',#{realName,jdbcType=VARCHAR},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 查询分页数据 -->
+	<select id="findPageData" resultMap="BaseResultMap" parameterType="cn.itcast.bos.pojo.system.User">
+		select
+		<include refid="Base_Column_List" />
+		from t_user where 1=1
+		<if test="username != null and username !='' ">
+			and C_USERNAME LIKE CONCAT('%',#{username,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="gender != null and gender !='' ">
+			and C_GENDER = #{gender}
+		</if>
+		<if test="birthday != null and birthday !='' ">
+			and C_BIRTHDAY LIKE CONCAT('%',#{birthday,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="realName != null and realName !='' ">
+			and C_REAL_NAME LIKE CONCAT('%',#{realName,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="begin != null and end != null">
+			limit #{begin} , #{end}
+		</if>
+	</select>
+
+	<!-- 根据用户名和密码查询用户对象 -->
+	<select id="findByUsernameAndPassword" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where C_USERNAME = #{arg0} and C_PASSWORD = #{arg1}
+	</select>
+
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where C_ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from t_user
+		where C_ID = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="saveUserAndRole" >
+		insert into t_user_role (
+			C_USER_ID, C_ROLE_ID
+		)
+		values (
+			#{arg0}, #{arg1}
+		)
+	</insert>
+	
+	<insert id="insert" parameterType="cn.itcast.bos.pojo.system.User">
+		insert into t_user (C_ID, C_BIRTHDAY, C_GENDER,
+		C_PASSWORD, C_REMARK, C_STATION,
+		C_TELEPHONE, C_USERNAME, C_REAL_NAME,
+		C_EMAIL, C_ADD_TIME, C_UPDATE_TIME
+		)
+		values (#{id,jdbcType=INTEGER}, #{birthday,jdbcType=VARCHAR},
+		#{gender,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{station,jdbcType=VARCHAR},
+		#{telephone,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR},
+		#{realName,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR}, #{addTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="cn.itcast.bos.pojo.system.User" 
+		useGeneratedKeys="true" keyProperty="id" keyColumn="C_ID">
+		insert into t_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				C_ID,
+			</if>
+			<if test="birthday != null">
+				C_BIRTHDAY,
+			</if>
+			<if test="gender != null">
+				C_GENDER,
+			</if>
+			<if test="password != null">
+				C_PASSWORD,
+			</if>
+			<if test="remark != null">
+				C_REMARK,
+			</if>
+			<if test="station != null">
+				C_STATION,
+			</if>
+			<if test="telephone != null">
+				C_TELEPHONE,
+			</if>
+			<if test="username != null">
+				C_USERNAME,
+			</if>
+			<if test="realName != null">
+				C_REAL_NAME,
+			</if>
+			<if test="email != null">
+				C_EMAIL,
+			</if>
+			<if test="addTime != null">
+				C_ADD_TIME,
+			</if>
+			<if test="updateTime != null">
+				C_UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="birthday != null">
+				#{birthday,jdbcType=VARCHAR},
+			</if>
+			<if test="gender != null">
+				#{gender,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="station != null">
+				#{station,jdbcType=VARCHAR},
+			</if>
+			<if test="telephone != null">
+				#{telephone,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="realName != null">
+				#{realName,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="addTime != null">
+				#{addTime,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.itcast.bos.pojo.system.User">
+		update t_user
+		<set>
+			<if test="birthday != null">
+				C_BIRTHDAY = #{birthday,jdbcType=VARCHAR},
+			</if>
+			<if test="gender != null">
+				C_GENDER = #{gender,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				C_PASSWORD = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				C_REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="station != null">
+				C_STATION = #{station,jdbcType=VARCHAR},
+			</if>
+			<if test="telephone != null">
+				C_TELEPHONE = #{telephone,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				C_USERNAME = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="realName != null">
+				C_REAL_NAME = #{realName,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				C_EMAIL = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="addTime != null">
+				C_ADD_TIME = #{addTime,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				C_UPDATE_TIME = #{updateTime,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where C_ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.itcast.bos.pojo.system.User">
+		update t_user
+		set C_BIRTHDAY = #{birthday,jdbcType=VARCHAR},
+		C_GENDER = #{gender,jdbcType=VARCHAR},
+		C_PASSWORD = #{password,jdbcType=VARCHAR},
+		C_REMARK = #{remark,jdbcType=VARCHAR},
+		C_STATION = #{station,jdbcType=VARCHAR},
+		C_TELEPHONE = #{telephone,jdbcType=VARCHAR},
+		C_USERNAME = #{username,jdbcType=VARCHAR},
+		C_REAL_NAME = #{realName,jdbcType=VARCHAR},
+		C_EMAIL = #{email,jdbcType=VARCHAR},
+		C_ADD_TIME = #{addTime,jdbcType=VARCHAR},
+		C_UPDATE_TIME = #{updateTime,jdbcType=VARCHAR}
+		where C_ID = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>
