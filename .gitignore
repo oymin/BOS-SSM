@@ -3,3 +3,7 @@
 /.classpath
 /.settings
 /.idea
+/bos_fore/.settings
+/bos_fore/target
+*.classpath
+*.project
