@@ -1,3 +1,5 @@
-/bos_management/target
-/bos_fore/target
-/bos_domain/target
+/target
+/.project
+/.classpath
+/.settings
+/.idea
